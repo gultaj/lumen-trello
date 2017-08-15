@@ -27,6 +27,8 @@ $app->withFacades();
 
 $app->withEloquent();
 
+$app->configure('auth');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -64,7 +66,8 @@ $app->singleton(
 // ]);
 
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
+    // 'auth' => App\Http\Middleware\Authenticate::class,
+    'auth' =>  \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
 ]);
 
 /*
