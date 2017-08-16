@@ -25,8 +25,6 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // dd($this->jwt);
-
         try {
 
             if (! $token = $this->jwt->attempt($request->only('email', 'password'))) {
@@ -48,5 +46,24 @@ class AuthController extends Controller
         }
 
         return response()->json(compact('token'));
+    }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email|unique:users|max:255',
+            'first_name' => 'required|min:2',
+            'last_name' => 'required|min:2',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        $user = \App\User::create([
+        // $user = \App\User::create($request->all());
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+            'password' => app('hash')->make($request->input('password')),
+        ]);
+        return response()->json(['User registered'], 200);
     }
 }
