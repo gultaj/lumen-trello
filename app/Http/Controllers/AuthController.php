@@ -45,7 +45,9 @@ class AuthController extends Controller
 
         }
 
-        return response()->json(compact('token'));
+        $user = $this->jwt->user();
+
+        return response()->json(compact('token', 'user'));
     }
 
     public function register(Request $request)
